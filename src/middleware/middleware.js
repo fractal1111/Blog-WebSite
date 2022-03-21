@@ -21,7 +21,7 @@ const jwt = require("jsonwebtoken");
 
 
     }catch(err){
-        return res.status(401).send({ERROR:err.message})}
+        return res.status(500).send({ERROR:err.message})}
 }
    
 module.exports.auth=auth

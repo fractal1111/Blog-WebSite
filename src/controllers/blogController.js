@@ -96,9 +96,9 @@ const updateBlog = async function (req, res) {
         if (Object.keys(data) != 0) {
 
           if (blogToBeModified.isDeleted == false) {
-            if (isValid(data.title)) { filter['title'] = data.category }
+            if (isValid(data.title)) { filter['title'] = data.title }
             if (isValid(data.body)) { filter['body'] = data.body }
-            if (isValid(data.tags)) { filter['tags'] = data.tags }
+           // if (isValid(data.tags)) { filter['tags'] = data.tags }
             if (isValid(data.subcateogory)) { filter['subcategory'] = data.subcategory }
             if (isValid(data.isPublished)) { filter['isPublished'] = data.isPublished }
 
@@ -107,7 +107,7 @@ const updateBlog = async function (req, res) {
               let blogToBePublished = await blogModel.findOneAndUpdate({ _id: blogId }, { $set: { isPublished: true, publishedAt: Date.now() } })
             }
 
-            let updatedBlog = await blogModel.findOneAndUpdate({ _id: blogId }, { ...filter }, { new: true })
+            let updatedBlog = await blogModel.findOneAndUpdate({ _id: blogId }, { ...filter,$push:{tags:data.tags} }, { new: true })
 
             return res.status(202).send({ Status: "Blog updated successfully", updatedBlog })
 
@@ -143,7 +143,7 @@ let deleteBlogById = async function (req, res) {
 
     if (id) {
       let blogToBeDeleted = await blogModel.findById(id)
-      if (blogToBeDeleted.isDeleted == true) { return res.status.send({ status: fale, msg: "Blog has already been deleted" }) }
+      if (blogToBeDeleted.isDeleted == true) { return res.status(400).send({ status: false, msg: "Blog has already been deleted" }) }
       if (blogToBeDeleted) {
         if (blogToBeDeleted.authorId == req.decodedToken.authId) {
 
