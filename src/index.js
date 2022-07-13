@@ -5,8 +5,6 @@ const { default: mongoose } = require('mongoose');
 const app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 
 mongoose.connect("mongodb+srv://Parth1111:a5xZnL6DVS-c-!7@cluster0.9doof.mongodb.net/project1?retryWrites=true&w=majority", {
     useNewUrlParser: true
@@ -17,6 +15,6 @@ mongoose.connect("mongodb+srv://Parth1111:a5xZnL6DVS-c-!7@cluster0.9doof.mongodb
 app.use('/', route);
 
 
-app.listen(process.env.PORT || 3000, function () {
+app.listen(3000, function () {
     console.log('Express app running on port ' + (process.env.PORT || 3000))
 });
